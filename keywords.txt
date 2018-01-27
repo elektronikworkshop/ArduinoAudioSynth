@@ -1,0 +1,7 @@
+Effect   KEYWORD1
+
+begin        KEYWORD2
+audioRead    KEYWORD2
+audioWrite   KEYWORD2
+controlRead  KEYWORD2
+
