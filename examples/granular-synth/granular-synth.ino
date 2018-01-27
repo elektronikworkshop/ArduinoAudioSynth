@@ -41,6 +41,8 @@ uint8_t grain2Decay;
 const uint8_t LED_PIN = 13;
 #define LED_PORT  PORTB
 #define LED_BIT   5
+/* Flip to 0 for standard chromatic mapping of MIDI notes */
+#define USE_PENTATONIC  1
 
 uint8_t attenuation = 0;
 
@@ -51,8 +53,12 @@ void midiNoteOn(byte /* channel */,
                 byte note,
                 byte velocity)
 {
-  uint8_t index = map(note, 0, 127, 0, sizeof(pentatonicTable) - 1);
+#if USE_PENTATONIC
+  uint8_t index = map(note, 0, 127, 0, sizeof(pentatonicTable)/sizeof(pentatonicTable[0]) - 1);
   syncPhaseInc = pentatonicTable[index];
+#else
+  syncPhaseInc = midiTable[note];
+#endif
 
   attenuation = ((127 - velocity) >> 4);
 }
